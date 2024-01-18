@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nayeem_sama_test/models/education_model.dart';
 import 'package:nayeem_sama_test/models/experience_model.dart';
 import 'package:nayeem_sama_test/models/project_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as FStore;
+
 
 class NewResumeProvider extends ChangeNotifier {
 
@@ -53,7 +55,7 @@ class NewResumeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createResume() {
+  void createResume(context) async {
     cv.addAll({
       'name':nameController.text,
       'email':emailController.text,
@@ -71,6 +73,11 @@ class NewResumeProvider extends ChangeNotifier {
 
     print('all CV $cv');
     print('all CV 2 ${jsonEncode(cv)}');
+    await FStore.FirebaseFirestore.instance.collection('resumes').add(cv);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Resume created')));
+    Future.delayed(Duration(seconds: 3),() {
+      Navigator.of(context).pop();
+    },);
   }
 
 }

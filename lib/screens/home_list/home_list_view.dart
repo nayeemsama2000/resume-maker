@@ -16,23 +16,39 @@ class HomeListPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Rusume $index'),
-                  ],
-                ),
+          StreamBuilder<dynamic>(
+            stream: provider.fetchResumes(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState==ConnectionState.waiting){
+                return Center(child: CircularProgressIndicator(),);
+              }
+              print('ddd ${snapshot.data.docs.length}');
+              return ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 100,
+                    child: Material(
+                      child: InkWell(
+                        onTap: () {
+
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Rusume $index'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: 10);
+                },
+                itemCount: snapshot.data.docs.length,
               );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: 10);
-            },
-            itemCount: 5,
+            }
           )
         ],
       ),

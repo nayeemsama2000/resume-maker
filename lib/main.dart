@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as Firestore;
 import 'package:flutter/material.dart';
 import 'package:nayeem_sama_test/screens/home_list/home_list_provider.dart';
 import 'package:nayeem_sama_test/screens/home_list/home_list_view.dart';
@@ -5,6 +7,10 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  Firestore.FirebaseFirestore.instance.settings = const Firestore.Settings(
+      persistenceEnabled: true
+  );
   runApp(
     MultiProvider(
       providers: [

@@ -6,6 +6,8 @@ import 'new_resume_provider.dart';
 class NewResumePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var arg = ModalRoute.of(context)?.settings.arguments;
+
     return ChangeNotifierProvider(
       create: (BuildContext context) => NewResumeProvider(),
       builder: (context, child) => _buildPage(context),
@@ -291,7 +293,7 @@ class NewResumePage extends StatelessWidget {
                 SizedBox(height: 20,),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
-                  child: ElevatedButton(onPressed: () { provider.createResume(); }, child: Text('Create Resume'),style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 60)),)
+                  child: ElevatedButton(onPressed: () { provider.createResume(context); }, child: Text('Create Resume'),style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 60)),)
                 )
               ],
             );
