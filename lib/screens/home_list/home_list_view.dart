@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nayeem_sama_test/screens/new_resume/new_resume_view.dart';
+import 'package:nayeem_sama_test/screens/show_resume/show_resume_view.dart';
 import 'package:provider/provider.dart';
 
 import 'home_list_provider.dart';
@@ -22,7 +23,7 @@ class HomeListPage extends StatelessWidget {
               if(snapshot.connectionState==ConnectionState.waiting){
                 return Center(child: CircularProgressIndicator(),);
               }
-              print('ddd ${snapshot.data.docs.length}');
+              print('ddd ${snapshot.data.docs[0].reference.path.toString().split('/').last}');
               return ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
@@ -31,7 +32,11 @@ class HomeListPage extends StatelessWidget {
                     child: Material(
                       child: InkWell(
                         onTap: () {
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return ShowResumePage();
+                          },settings: RouteSettings(arguments: {
+                            "id":snapshot.data.docs[index].reference.path.toString().split('/').last,
+                          })));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
